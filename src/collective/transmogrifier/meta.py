@@ -15,7 +15,7 @@ class IRegisterConfigDirective(Interface):
     name = PythonIdentifier(
         title=u'Name',
         description=u"If not specified 'default' is used.",
-        default=u'default',
+        default='default',
         required=False)
 
     title = MessageID(
@@ -39,7 +39,7 @@ class IRegisterConfigDirective(Interface):
 _configuration_regs = []
 
 
-def registerConfig(_context, configuration, name=u'default', title=None,
+def registerConfig(_context, configuration, name='default', title=None,
                    description=None):
     """Add a new configuration to the registry"""
     if title is None:

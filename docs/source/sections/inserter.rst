@@ -52,7 +52,7 @@ version.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.inserter',
     ...                inserter)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.inserter')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'foo': 'bar (inserted into "item-00" by the "simple-insertion" section)',
         'id': 'foo-item-00'}

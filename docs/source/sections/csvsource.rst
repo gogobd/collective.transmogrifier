@@ -40,7 +40,7 @@ options that start with ``fmtparam-``.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.csvsource.file',
     ...                csvsource)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.csvsource.file')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'bar': 'first-bar', 'baz': 'first-baz', 'foo': 'first-foo'}
     logger INFO
@@ -51,7 +51,7 @@ The CSV file column field names can also be specified.
     >>> handler.clear()
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.csvsource.file',
     ...                csvsource=dict(fieldnames='monty spam eggs'))
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'eggs': 'baz', 'monty': 'foo', 'spam': 'bar'}
     logger INFO
@@ -80,7 +80,7 @@ Here is the same example, loading a file from a package instead:
     ...                csvsource)
     >>> handler.clear()
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.csvsource.package')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'bar': 'first-bar', 'baz': 'first-baz', 'foo': 'first-foo'}
     logger INFO
@@ -131,7 +131,7 @@ We can also load a file from a GS import context:
     ... duck,archibald
     ... """)
     >>> t(u'collective.transmogrifier.sections.tests.csvsource.gs')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'animal': 'cow', 'name': 'daisy'}
     logger INFO
@@ -141,7 +141,7 @@ We can also load a file from a GS import context:
 
 Import contexts can be chunked, and that's okay:
 
-    >>> import StringIO
+    >>> from io import StringIO 
     >>> class FakeChunkedImportContext(object):
     ...  def __init__(self, subdir, filename, contents):
     ...      self.filename = filename
@@ -151,7 +151,7 @@ Import contexts can be chunked, and that's okay:
     ...          return None
     ...      if filename != self.filename:
     ...          return None
-    ...      return StringIO.StringIO(self.contents)
+    ...      return StringIO(self.contents)
     >>> handler.clear()
     >>> t = Transmogrifier({})
     >>> IAnnotations(t)[IMPORT_CONTEXT] = FakeChunkedImportContext(None, 'somefile.csv',
@@ -159,7 +159,7 @@ Import contexts can be chunked, and that's okay:
     ... fish,wanda
     ... """)
     >>> t(u'collective.transmogrifier.sections.tests.csvsource.gs')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'animal': 'fish', 'name': 'wanda'}
 
@@ -174,14 +174,14 @@ Attempting to load a nonexistant file won't do anything:
     ... duck,archibald
     ... """)
     >>> t(u'collective.transmogrifier.sections.tests.csvsource.gs')
-    >>> print handler
+    >>> print(handler)
 
 Not having an import context around will also find nothing:
 
     >>> handler.clear()
     >>> t = Transmogrifier({})
     >>> t(u'collective.transmogrifier.sections.tests.csvsource.gs')
-    >>> print handler
+    >>> print(handler)
 
 The file can also be taken from a source item's key. A key can also be
 specified for rows that have more values than the fieldnames.
@@ -218,7 +218,7 @@ specified for rows that have more values than the fieldnames.
 
     >>> handler.clear()
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.csvsource.key')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'_item-csvsource': '.../collective/transmogrifier/tests/sample.csv'}
     logger INFO

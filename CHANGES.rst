@@ -6,6 +6,10 @@ Change History
 1.5.3 (unreleased)
 ==================
 
+- Testing Plone 5.2 
+  [ksuess]
+- Logger with multiple keys
+  [ksuess]
 - Avoid failures if the ``id`` of an item is invalid for Zope.
   [hvelarde]
 

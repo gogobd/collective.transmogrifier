@@ -67,7 +67,7 @@ Here is how it might look by default:
     >>> registerConfig(u'collective.transmogrifier.sections.tests.folders',
     ...                constructor)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.folders')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'_path': '/foo', '_type': 'Document'}
     logger INFO
@@ -118,7 +118,7 @@ To specify alternate types and keys, we can do something like this:
     >>> handler.clear()
     >>> plone.exists.clear()
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.folders2')
-    >>> print handler
+    >>> print(handler)
     logger INFO
       {'_path': '/foo', '_type': 'Document'}
     logger INFO

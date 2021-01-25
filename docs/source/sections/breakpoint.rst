@@ -40,7 +40,7 @@ giving some input (just a continue cammand).
     > .../collective.transmogrifier/src/collective/transmogrifier/sections/logger.py(...)__iter__()
     -> ...
     (Pdb) c
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'id': 'item-00'}
     logger INFO

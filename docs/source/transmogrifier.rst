@@ -84,11 +84,11 @@ an ISection pipe section. ISections in turn, are iterators implementing the
 
 Here is a simple blueprint, in the form of a class definition:
 
-    >>> from zope.interface import classProvides, implements
+    >>> from zope.interface import provider, implementer
     >>> from zope.component import provideUtility
-    >>> class ExampleTransform(object):
-    ...     classProvides(ISectionBlueprint)
-    ...     implements(ISection)
+    >>> @implementer(ISection)
+    ... @provider(ISectionBlueprint)
+    ... class ExampleTransform(object):
     ...
     ...     def __init__(self, transmogrifier, name, options, previous):
     ...         self.previous = previous
@@ -122,9 +122,9 @@ This is where special sections, sources, come in. A source is simply a pipe
 section that inserts extra items into the pipeline. This is best illustrated
 with another example:
 
-    >>> class ExampleSource(object):
-    ...     classProvides(ISectionBlueprint)
-    ...     implements(ISection)
+    >>> @implementer(ISection)
+    ... @provider(ISectionBlueprint)
+    ... class ExampleSource(object):
     ...
     ...     def __init__(self, transmogrifier, name, options, previous):
     ...         self.previous = previous
@@ -174,9 +174,9 @@ content objects based on these items, then yield the item for a next section.
 For example purposes, we simply pretty print the items instead:
 
     >>> import pprint
-    >>> class ExampleConstructor(object):
-    ...     classProvides(ISectionBlueprint)
-    ...     implements(ISection)
+    >>> @implementer(ISection)
+    ... @provider(ISectionBlueprint)
+    ... class ExampleConstructor(object):
     ...     
     ...     def __init__(self, transmogrifier, name, options, previous):
     ...         self.previous = previous
@@ -225,9 +225,9 @@ section options. It is the same mapping as can be had through
 
 A short example shows each of these arguments in action:
 
-    >>> class TitleExampleSection(object):
-    ...     classProvides(ISectionBlueprint)
-    ...     implements(ISection)
+    >>> @implementer(ISection)
+    ... @provider(ISectionBlueprint)
+    ... class TitleExampleSection(object):
     ...
     ...     def __init__(self, transmogrifier, name, options, previous):
     ...         self.transmogrifier = transmogrifier
@@ -268,24 +268,24 @@ A short example shows each of these arguments in action:
     >>> registerConfig(u'collective.transmogrifier.tests.titlepipeline', 
     ...                titlepipeline)
     >>> plone.Title()
-    u'Plone Test Site'
+    'Plone Test Site'
     >>> transmogrifier = Transmogrifier(plone)
     >>> transmogrifier(u'collective.transmogrifier.tests.titlepipeline')
     [('id', 'item00'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item00')]
+     ('title', 'Plone Test Site - item00')]
     [('id', 'item01'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item01')]
+     ('title', 'Plone Test Site - item01')]
     [('id', 'item02'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item02')]
+     ('title', 'Plone Test Site - item02')]
     [('id', 'item03'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item03')]
+     ('title', 'Plone Test Site - item03')]
     [('id', 'item04'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item04')]
+     ('title', 'Plone Test Site - item04')]
 
 Configuration file syntax
 -------------------------
@@ -426,13 +426,13 @@ configuration options, by using the += and -= syntax:
     >>> transmogrifier(u'collective.transmogrifier.tests.advancedinclusionexample')
     [('id', 'item00'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item00')]
+     ('title', 'Plone Test Site - item00')]
     [('id', 'item01'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item01')]
+     ('title', 'Plone Test Site - item01')]
     [('id', 'item02'),
      ('pipeline-size', '3'),
-     ('title', u'Plone Test Site - item02')]
+     ('title', 'Plone Test Site - item02')]
 
 When calling transmogrifier, you can provide your own sections too: any extra
 keyword is interpreted as a section dictionary. Do make sure you use string

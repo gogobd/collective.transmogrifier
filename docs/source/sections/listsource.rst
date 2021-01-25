@@ -66,7 +66,7 @@ be broken up on newlines into a list.
 
     >>> transmogrifier(
     ...     u'collective.transmogrifier.sections.tests.listsource')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'id': 'item-00'}
     logger INFO
@@ -107,7 +107,7 @@ appended to the list source.
     ...     lister)
     >>> transmogrifier(
     ...     u'collective.transmogrifier.sections.tests.listsource-move')
-    >>> print handler
+    >>> print(handler)
     logger INFO
       {'copy': 'item-01'}
     logger INFO

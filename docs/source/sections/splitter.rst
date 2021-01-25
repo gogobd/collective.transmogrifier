@@ -33,7 +33,7 @@ own copy [*]_ of the items:
     >>> registerConfig(u'collective.transmogrifier.sections.tests.emptysplitter',
     ...                emptysplitter)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.emptysplitter')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'id': 'item-00'}
     logger INFO
@@ -92,7 +92,7 @@ optional and use the pipeline option name plus ``-condition``:
     ...                evenoddsplitter)
     >>> handler.clear()
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.evenodd')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'even': 'The even pipe', 'id': 'item-00'}
     logger INFO

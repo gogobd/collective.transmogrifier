@@ -57,7 +57,8 @@ class SplitterConditionSection(object):
                 next = self._buffer
                 self._buffer = _empty
             else:
-                next = next(self.previous)
+                # next = next(self.previous)
+                next = self.previous.__next__()
 
             if self.condition(next):
                 return copy.deepcopy(next)

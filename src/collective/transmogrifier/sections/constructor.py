@@ -35,6 +35,9 @@ class ConstructorSection(object):
             keys = list(item.keys())
             typekey = self.typekey(*keys)[0]
             pathkey = self.pathkey(*keys)[0]
+            print("*** ConstructorSection", keys)
+            print("ConstructorSection", typekey)
+            print("ConstructorSection", pathkey)
 
             if not (typekey and pathkey):
                 logger.warning('Not enough info for item: %s' % item)
@@ -63,6 +66,7 @@ class ConstructorSection(object):
                 yield item; continue
 
             try:
+                print("constructor", path, container, id)
                 obj = fti._constructInstance(context, id)
             except (BadRequest, ValueError):
                 error = 'Could not create type %s with id %s at %s' % (

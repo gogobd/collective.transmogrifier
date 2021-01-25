@@ -5,16 +5,18 @@ from collective.transmogrifier.interfaces import ITransmogrifier
 from collective.transmogrifier.tests import setUp
 from collective.transmogrifier.tests import tearDown
 from collective.transmogrifier.transmogrifier import configuration_registry
-from Products.Five import zcml
+# from Products.Five import zcml
 from zope.component import provideAdapter
 from zope.component import provideUtility
 from zope.interface import classImplements
 from zope.interface import directlyProvides
-from zope.interface import implements
+from zope.interface import implementer
 from zope.testing import cleanup
-from zope.testing import doctest
+# from zope.testing import doctest
+from Zope2.App.zcml import load_config, load_string
 
 import collective.transmogrifier
+import doctest
 import operator
 import os
 import shutil
@@ -27,20 +29,20 @@ import unittest
 class MetaDirectivesTests(unittest.TestCase):
 
     def setUp(self):
-        zcml.load_config('meta.zcml', collective.transmogrifier)
+        load_config('meta.zcml', collective.transmogrifier)
 
     def tearDown(self):
         configuration_registry.clear()
         cleanup.cleanUp()
 
     def testEmptyZCML(self):
-        zcml.load_string('''\
+        load_string('''\
 <configure xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier">
 </configure>''')
         self.assertEqual(configuration_registry.listConfigurationIds(), ())
 
     def testConfigZCML(self):
-        zcml.load_string('''\
+        load_string('''\
 <configure
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="collective.transmogrifier">
@@ -63,7 +65,7 @@ class MetaDirectivesTests(unittest.TestCase):
                  configuration=os.path.join(path, 'filename.cfg')))
 
     def testConfigZCMLDefaults(self):
-        zcml.load_string('''\
+        load_string('''\
 <configure
     xmlns:transmogrifier="http://namespaces.plone.org/transmogrifier"
     i18n_domain="collective.transmogrifier">
@@ -262,8 +264,8 @@ class PackageReferenceResolverTest(unittest.TestCase):
                           'collective.transmogrifier.nonexistent:test')
 
 
+@implementer(ITransmogrifier)
 class MockImportContext(object):
-    implements(ITransmogrifier)
 
     def __init__(self, configfile=None):
         self.configfile = configfile

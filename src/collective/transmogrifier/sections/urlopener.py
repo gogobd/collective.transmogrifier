@@ -119,8 +119,8 @@ class URLOpenerSection(object):
 class HTTPDefaultErrorHandler(urllib.request.HTTPDefaultErrorHandler):
 
     def http_error_default(self, req, fp, code, msg, hdrs):
-        if not isinstance(hdrs, email.Message):
-            hdrs = email.Message(io.StringIO(hdrs.decode()))
+        if not isinstance(hdrs, email.message.Message):
+            hdrs = email.message_from_string(hdrs)
         hdrs.setdefault('Status', str(code) + ' ' + msg)
         try:
             return urllib.request.HTTPDefaultErrorHandler.http_error_default(

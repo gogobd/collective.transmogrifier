@@ -34,9 +34,8 @@ class LoggerSection(object):
             self.level = int(level)
         self.logger.setLevel(self.level)
 
-        if self.key is None:
-            import pprint
-            self.pformat = pprint.PrettyPrinter().pformat
+        import pprint
+        self.pformat = pprint.PrettyPrinter().pformat
 
     def __iter__(self):
         for item in self.previous:
@@ -48,6 +47,10 @@ class LoggerSection(object):
                             copy[key] = item[key]
                     msg = pformat_msg(copy)
                 else:
-                    msg = item.get(self.key, '-- Missing key --')
+                    keys = self.key.split(',')
+                    keys = [key.strip() for key in keys]
+                    # msg = item.get(self.key, '-- Missing key --')
+                    dct = dict(zip(keys, [item.get(key, '-- Missing key --') for key in keys]))
+                    msg = pformat_msg(dct)
                 self.logger.log(self.level, msg)
             yield item

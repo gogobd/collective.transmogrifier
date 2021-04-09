@@ -11,12 +11,8 @@ from zope.testing.cleanup import addCleanUp
 import configparser
 import re
 
-try:
-    from UserDict import UserDict
-    from UserDict import DictMixin
-except ImportError:
-    from collections import UserDict
-    from collections import MutableMapping as DictMixin
+from collections import UserDict
+from collections import MutableMapping as DictMixin
 
 
 class ConfigurationRegistry(object):

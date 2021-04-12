@@ -32,7 +32,7 @@ to the next pipe section, otherwise it is not:
     >>> registerConfig(u'collective.transmogrifier.sections.tests.condition',
     ...                condition)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.condition')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'id': 'item-03'}
     logger INFO

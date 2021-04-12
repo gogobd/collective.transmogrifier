@@ -63,7 +63,7 @@ happening. The condition is evaluated for every matched key.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.codecs',
     ...                codecs)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.codecs')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'id': 'foo', 'status': u'\u2117', 'title': 'The Foo Fighters \\u2117'}
     logger INFO

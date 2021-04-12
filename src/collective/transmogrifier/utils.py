@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from interfaces import ISection
-from interfaces import ISectionBlueprint
+from collective.transmogrifier.interfaces import ISection
+from collective.transmogrifier.interfaces import ISectionBlueprint
 from logging import DEBUG
 from logging import getLogger
 from zope.component import getUtility
 
 import os.path
-import posixpath
 import pprint
 import re
 import sys
@@ -44,8 +43,8 @@ def openFileReference(transmogrifier, ref):
             if hasattr(context, "openDataFile"):
                 return context.openDataFile(filename, subdir=subdir)
             if hasattr(context, "readDataFile"):
-                import StringIO
-                return StringIO.StringIO(
+                import io
+                return io.StringIO(
                     context.readDataFile(filename, subdir=subdir))
         except ImportError:
             return None
@@ -81,7 +80,7 @@ def resolvePackageReference(reference):
     return os.path.join(os.path.dirname(package.__file__), filename)
 
 
-def pathsplit(path, ospath=posixpath):
+def pathsplit(path, ospath=os.path):
     dirname, basename = ospath.split(path)
     if dirname == ospath.sep:
         yield dirname
@@ -95,7 +94,7 @@ def pathsplit(path, ospath=posixpath):
 
 def traverse(context, path, default=None):
     """Resolve an object without acquisition or views."""
-    for element in pathsplit(path.strip(posixpath.sep)):
+    for element in pathsplit(path.strip(os.sep)):
         if not hasattr(context, '_getOb'):
             return default
         context = context._getOb(element, default=default)
@@ -118,7 +117,7 @@ def constructPipeline(transmogrifier, sections, pipeline=None):
         if not section_id:
             continue
         section_options = transmogrifier[section_id]
-        blueprint_id = section_options['blueprint'].decode('ascii')
+        blueprint_id = section_options['blueprint']
         blueprint = getUtility(ISectionBlueprint, blueprint_id)
         pipeline = blueprint(transmogrifier, section_id, section_options,
                              pipeline)

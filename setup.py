@@ -32,6 +32,11 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-        'Products.CMFCore',
+        'Products.CMFPlone',
     ],
+    extras_require={
+        "test": [
+            "Products.CMFPlone[test]",
+        ],
+    },
 )

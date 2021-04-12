@@ -32,9 +32,9 @@ is ``collective.transmogrifier.sections.logger``.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.infologger',
     ...                infologger)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.infologger')
-    Infologger test: item-00
-    Infologger test: item-01
-    Infologger test: item-02
+    Infologger test: {'id': 'item-00'}
+    Infologger test: {'id': 'item-01'}
+    Infologger test: {'id': 'item-02'}
 
     
 We can also have numerical levels, and if the key is missing, it will print out
@@ -61,8 +61,8 @@ the items logged.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.debuglogger',
     ...                debuglogger)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.debuglogger')
-    Infologger test: -- Missing key --
-    Infologger test: -- Missing key --
+    Infologger test: {'foo': '-- Missing key --'}
+    Infologger test: {'foo': '-- Missing key --'}
 
 If no ``key`` option is given, the logger will render the whole item
 in a readable format using Python's ``pprint`` module.  The ``delete``
@@ -89,12 +89,7 @@ text fields which may be too large and make the output too noisy.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.logger',
     ...                logger)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.logger')
-    collective.transmogrifier.sections.tests.logger.logger:
-      {'id': 'foo', 'status': u'\u2117', 'title': u'The Foo Fighters \u2117'}
-    collective.transmogrifier.sections.tests.logger.logger:
-      {'id': 'bar', 'status': u'\u2122', 'title': u'Brand Chocolate Bar \u2122'}
-    collective.transmogrifier.sections.tests.logger.logger:
-      {'id': 'monty-python',
-       'status': u'\xa9',
-       'title': u"Monty Python's Flying Circus \xa9"}
+    collective.transmogrifier.sections.tests.logger.logger: {'id': 'foo', 'status': '℗', 'title': 'The Foo Fighters ℗'}
+    collective.transmogrifier.sections.tests.logger.logger: {'id': 'bar', 'status': '™', 'title': 'Brand Chocolate Bar ™'}
+    collective.transmogrifier.sections.tests.logger.logger: {'id': 'monty-python', 'status': '©', 'title': "Monty Python's Flying Circus ©"}
     

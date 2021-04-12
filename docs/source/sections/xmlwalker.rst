@@ -79,7 +79,7 @@ Start with an HTML file containing a heirarchical navbar.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.xmlwalker',
     ...                infologger)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.xmlwalker')
-    >>> print handler
+    >>> print(handler)
     logger INFO
       {}
     logger INFO

@@ -5,9 +5,10 @@ from collective.transmogrifier.interfaces import ISectionBlueprint
 from collective.transmogrifier.utils import defaultMatcher
 from collective.transmogrifier.utils import traverse
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from zExceptions import BadRequest
-from zope.interface import classProvides
-from zope.interface import implements
+from zope.interface import provider
+from zope.interface import implementer
 
 import logging
 import posixpath
@@ -15,10 +16,9 @@ import posixpath
 
 logger = logging.getLogger('collective.transmogrifier.constructor')
 
-
+@provider(ISectionBlueprint)
+@implementer(ISection)
 class ConstructorSection(object):
-    classProvides(ISectionBlueprint)
-    implements(ISection)
 
     def __init__(self, transmogrifier, name, options, previous):
         self.previous = previous
@@ -32,22 +32,25 @@ class ConstructorSection(object):
 
     def __iter__(self):
         for item in self.previous:
-            keys = item.keys()
+            keys = list(item.keys())
             typekey = self.typekey(*keys)[0]
             pathkey = self.pathkey(*keys)[0]
+            print("*** ConstructorSection", keys)
+            print("ConstructorSection", typekey)
+            print("ConstructorSection", pathkey)
 
             if not (typekey and pathkey):
-                logger.warn('Not enough info for item: %s' % item)
+                logger.warning('Not enough info for item: %s' % item)
                 yield item; continue
 
             type_, path = item[typekey], item[pathkey]
 
             fti = self.ttool.getTypeInfo(type_)
             if fti is None:
-                logger.warn('Not an existing type: %s' % type_)
+                logger.warning('Not an existing type: %s' % type_)
                 yield item; continue
 
-            path = path.encode('ASCII')
+            path = safe_unicode(path)
             container, id = posixpath.split(path.strip('/'))
             context = traverse(self.context, container, None)
             if context is None:
@@ -55,7 +58,7 @@ class ConstructorSection(object):
                     container, path)
                 if self.required:
                     raise KeyError(error)
-                logger.warn(error)
+                logger.warning(error)
                 yield item
                 continue
 
@@ -63,11 +66,12 @@ class ConstructorSection(object):
                 yield item; continue
 
             try:
+                print("constructor", path, container, id)
                 obj = fti._constructInstance(context, id)
             except (BadRequest, ValueError):
                 error = 'Could not create type %s with id %s at %s' % (
                     type_, id, path)
-                logger.warn(error)
+                logger.warning(error)
                 yield item
                 continue
 

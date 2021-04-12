@@ -66,7 +66,7 @@ required = True key to the constructor section it will instead raise a KeyError.
     >>> registerConfig(u'collective.transmogrifier.sections.tests.constructor',
     ...                constructor)
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.constructor')
-    >>> print handler
+    >>> print(handler)
     logger INFO
       {'_path': '/eggs/foo', '_type': 'FooType'}
     logger INFO
@@ -74,7 +74,7 @@ required = True key to the constructor section it will instead raise a KeyError.
     logger INFO
       {'_path': '/foo', '_type': 'FooType'}
     logger INFO
-      {'_path': u'/unicode/encoded/to/ascii', '_type': 'FooType'}
+      {'_path': '/unicode/encoded/to/ascii', '_type': 'FooType'}
     logger INFO
         {'_path': 'not/existing/bar',
        '_type': 'BarType',
@@ -128,7 +128,7 @@ required = True key to the constructor section it will instead raise a KeyError.
     ...     raise AssertionError("Required constructor did not raise an error for missing folder")
     ... except KeyError:
     ...     pass
-    >>> print handler
+    >>> print(handler)
     logger INFO
       {'_path': '/eggs/foo', '_type': 'FooType'}
     logger INFO
@@ -136,4 +136,4 @@ required = True key to the constructor section it will instead raise a KeyError.
     logger INFO
       {'_path': '/foo', '_type': 'FooType'}
     logger INFO
-      {'_path': u'/unicode/encoded/to/ascii', '_type': 'FooType'}
+      {'_path': '/unicode/encoded/to/ascii', '_type': 'FooType'}

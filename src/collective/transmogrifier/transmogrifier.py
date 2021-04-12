@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 # Test cleanup support
-from interfaces import ITransmogrifier
 from Products.CMFCore.interfaces import IFolderish
-from utils import constructPipeline
-from utils import resolvePackageReference
+from collective.transmogrifier.interfaces import ITransmogrifier
+from collective.transmogrifier.utils import constructPipeline
+from collective.transmogrifier.utils import resolvePackageReference
 from zope.component import adapts
-from zope.interface import implements
+from zope.interface import implementer
 from zope.testing.cleanup import addCleanUp
 
-import ConfigParser
+from six.moves import configparser
 import re
-import UserDict
+
+try:
+    from UserDict import UserDict
+    from UserDict import DictMixin
+except ImportError:
+    from collections import UserDict
+    from collections import MutableMapping as DictMixin
 
 
 class ConfigurationRegistry(object):
@@ -44,12 +50,19 @@ addCleanUp(configuration_registry.clear)
 del addCleanUp
 
 
-class Transmogrifier(UserDict.DictMixin):
-    implements(ITransmogrifier)
+@implementer(ITransmogrifier)
+class Transmogrifier(DictMixin):
     adapts(IFolderish)
 
     def __init__(self, context):
         self.context = context
+
+    def __len__(self):
+        return len(self._raw)
+
+    def __iter__(self):
+        for i in self._raw:
+            yield i
 
     def __call__(self, configuration_id, **overrides):
         self.configuration_id = configuration_id
@@ -85,13 +98,13 @@ class Transmogrifier(UserDict.DictMixin):
         raise NotImplementedError('__delitem__')
 
     def keys(self):
-        return self._raw.keys()
+        return list(self._raw.keys())
 
     def __iter__(self):
         return iter(self._raw)
 
 
-class Options(UserDict.DictMixin):
+class Options(DictMixin):
     def __init__(self, transmogrifier, section, data):
         self.transmogrifier = transmogrifier
         self.section = section
@@ -99,8 +112,15 @@ class Options(UserDict.DictMixin):
         self._cooked = {}
         self._data = {}
 
+    def __len__(self):
+        return len(self._raw)
+
+    def __iter__(self):
+        for i in self._raw:
+            yield i
+
     def _substitute(self):
-        for key, value in self._raw.items():
+        for key, value in list(self._raw.items()):
             if '${' in value:
                 self._cooked[key] = self._sub(value, [(self.section, key)])
 
@@ -243,9 +263,10 @@ def _load_config(configuration_id, seen=None, **overrides):
     else:
         config_info = configuration_registry.getConfiguration(configuration_id)
         configuration_file = config_info['configuration']
-    parser = ConfigParser.RawConfigParser()
+    parser = configparser.RawConfigParser()
     parser.optionxform = str  # case sensitive
-    parser.readfp(open(configuration_file))
+    with open(configuration_file) as config_opened:
+        parser.read_file(config_opened)
 
     includes = None
     result = {}
@@ -264,7 +285,7 @@ def _load_config(configuration_id, seen=None, **overrides):
 
     seen.pop()
 
-    for section, options in overrides.iteritems():
+    for section, options in overrides.items():
         result.setdefault(section, {}).update(options)
 
     return result

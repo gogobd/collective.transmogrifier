@@ -3,8 +3,8 @@ from collective.transmogrifier.interfaces import ISection
 from collective.transmogrifier.interfaces import ISectionBlueprint
 from collective.transmogrifier.utils import Condition
 from collective.transmogrifier.utils import Matcher
-from zope.interface import classProvides
-from zope.interface import implements
+from zope.interface import provider
+from zope.interface import implementer
 
 import codecs
 
@@ -14,9 +14,9 @@ def _get_default_encoding(site):
     return getSiteEncoding(site)
 
 
+@provider(ISectionBlueprint)
+@implementer(ISection)
 class CodecSection(object):
-    classProvides(ISectionBlueprint)
-    implements(ISection)
 
     from_ = None
     from_error_handler = 'strict'
@@ -66,7 +66,7 @@ class CodecSection(object):
         from_ = self.from_
         if from_ is None:
             def decode(value):
-                if not isinstance(value, unicode):
+                if not isinstance(value, str):
                     raise ValueError('Not a unicode string: %s' % value)
                 return value
         else:
@@ -78,7 +78,7 @@ class CodecSection(object):
         to = self.to
         if to is None:
             def encode(value):
-                if not isinstance(value, unicode):
+                if not isinstance(value, str):
                     raise ValueError('Not a unicode string: %s' % value)
                 return value
         else:

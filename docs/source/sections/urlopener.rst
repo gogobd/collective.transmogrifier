@@ -20,7 +20,7 @@ response and header optionally also using a local cache.
     ... [url]
     ... blueprint = collective.transmogrifier.sections.inserter
     ... key = string:_url
-    ... condition = python:not modules['urlparse'].urlsplit(
+    ... condition = python:not modules['urllib.parse'].urlsplit(
     ...     item.get('_url', '')).netloc
     ... value = python:'file://' + modules['posixpath'].join(
     ...     modules['os.path'].dirname(
@@ -48,7 +48,7 @@ response and header optionally also using a local cache.
     ...     u'collective.transmogrifier.sections.tests.urlopener', urlopener)
 
     >>> transmogrifier(u'collective.transmogrifier.sections.tests.urlopener')
-    >>> print handler
+    >>> print(handler)
     logger INFO
         {'_cache': 'var/tests.urlopener.cache.d/http/foo/bar/qux/non-existent.html',
        '_headers': {'status': '404 Not Found',

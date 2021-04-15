@@ -94,6 +94,8 @@ def pathsplit(path, ospath=os.path):
 
 def traverse(context, path, default=None):
     """Resolve an object without acquisition or views."""
+    if not isinstance(path, str):
+        path = path.decode('utf-8')
     for element in pathsplit(path.strip(os.sep)):
         if not hasattr(context, '_getOb'):
             return default

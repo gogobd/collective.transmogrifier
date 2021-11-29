@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from interfaces import ISection
-from interfaces import ISectionBlueprint
+from .interfaces import ISection
+from .interfaces import ISectionBlueprint
 from logging import DEBUG
 from logging import getLogger
 from zope.component import getUtility

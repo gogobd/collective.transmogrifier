@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Test cleanup support
-from interfaces import ITransmogrifier
+from .interfaces import ITransmogrifier
 from Products.CMFCore.interfaces import IFolderish
 from utils import constructPipeline
 from utils import resolvePackageReference

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from transmogrifier import configuration_registry
+from .transmogrifier import configuration_registry
 from zope.configuration.fields import MessageID
 from zope.configuration.fields import Path
 from zope.configuration.fields import PythonIdentifier
